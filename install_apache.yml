@@ -7,12 +7,15 @@
   - name: update_repo
     apt:
       update_cache: true
+    when: ansible_distribution == "Ubuntu"
 
   - name: install apache2 package
     apt:
       name: apache2
-      state: absent
+      state: latest
+    when: ansible_distribution == "Ubuntu"
 
-  - name: add php support for apache
+  - name: add php support for pache
     apt:
       name: libapache2-mod-php
+    when: ansible_distribution == "Ubuntu"
