@@ -9,7 +9,19 @@
     tags: always
     apt:
       update_cache: yes
+    changed_when: false
     when: ansible_distribution == "Ubuntu"
+
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: add ssh key for simone 
+    tags: always
+    authorized_key:
+      user: simone
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINMH9LV1+PbCYyZYsuEPK9gmSyoKQbmrZlYwMG3gPW09 Ansible"
 
 - hosts: workstations
   become: true
@@ -38,6 +50,14 @@
         - apache2
         - libapache2-mod-php
       state: latest
+
+  - name: start apache (Ubuntu)
+    tags: apache, apache, ubutnu
+    service:
+      name: apache2
+      state: started
+      enabled: yes
+    when: ansible_distribution == "Ubuntu!"
 
   - name: copy default html file for site
     tags: apache,apache2,httpd
